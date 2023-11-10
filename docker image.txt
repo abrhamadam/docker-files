@@ -1,0 +1,220 @@
+theia@theiadocker-abrhamadamu0:/home/project$ docker --version
+Docker version 20.10.7, build 20.10.7-0ubuntu5~18.04.3
+theia@theiadocker-abrhamadamu0:/home/project$ ibmcloud version
+ibmcloud version 2.12.1+b8488a1-2022-10-31T15:08:10+00:00
+theia@theiadocker-abrhamadamu0:/home/project$ [ ! -d 'CC201' ] && git clone https://github.com/ibm-developer-skills-network/CC201.git
+Cloning into 'CC201'...
+remote: Enumerating objects: 30, done.
+remote: Counting objects: 100% (30/30), done.
+remote: Compressing objects: 100% (24/24), done.
+remote: Total 30 (delta 14), reused 18 (delta 5), pack-reused 0
+Unpacking objects: 100% (30/30), done.
+theia@theiadocker-abrhamadamu0:/home/project$ cd CC201/labs/1_ContainersAndDocker/
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ls
+app.js  Dockerfile  package.json
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker pull hello-world
+Using default tag: latest
+latest: Pulling from library/hello-world
+719385e32844: Pull complete 
+Digest: sha256:88ec0acaa3ec199d3b7eaf73588f4518c25f9d34f58ce9a0df68429c5af48e8d
+Status: Downloaded newer image for hello-world:latest
+docker.io/library/hello-world:latest
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+hello-world   latest    9c7a54a9a43c   6 months ago   13.3kB
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED              STATUS                          PORTS     NAMES
+536d835b05f7   hello-world   "/hello"   About a minute ago   Exited (0) About a minute ago             stoic_volhard
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker container rm <container_id>
+bash: syntax error near unexpected token `newline'
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
+536d835b05f7   hello-world   "/hello"   2 minutes ago   Exited (0) 2 minutes ago             stoic_volhard
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker build . -t myimage:v1
+Sending build context to Docker daemon  4.096kB
+Step 1/6 : FROM node:9.4.0-alpine
+9.4.0-alpine: Pulling from library/node
+605ce1bd3f31: Pull complete 
+fe58b30348fe: Pull complete 
+46ef8987ccbd: Pull complete 
+Digest: sha256:9cd67a00ed111285460a83847720132204185e9321ec35dacec0d8b9bf674adf
+Status: Downloaded newer image for node:9.4.0-alpine
+ ---> b5f94997f35f
+Step 2/6 : COPY app.js .
+ ---> 1b2c5dbdc071
+Step 3/6 : COPY package.json .
+ ---> 01f4ef7cbd65
+Step 4/6 : RUN npm install &&    apk update &&    apk upgrade
+ ---> Running in bb090b7c9269
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN hello-world-demo@0.0.1 No repository field.
+npm WARN hello-world-demo@0.0.1 No license field.
+
+added 62 packages in 1.785s
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.6/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.6/community/x86_64/APKINDEX.tar.gz
+v3.6.5-44-gda55e27396 [http://dl-cdn.alpinelinux.org/alpine/v3.6/main]
+v3.6.5-34-gf0ba0b43d5 [http://dl-cdn.alpinelinux.org/alpine/v3.6/community]
+OK: 8448 distinct packages available
+Upgrading critical system libraries and apk-tools:
+(1/1) Upgrading apk-tools (2.7.5-r0 -> 2.7.6-r0)
+Executing busybox-1.26.2-r9.trigger
+Continuing the upgrade transaction with new apk-tools:
+(1/7) Upgrading musl (1.1.16-r14 -> 1.1.16-r15)
+(2/7) Upgrading busybox (1.26.2-r9 -> 1.26.2-r11)
+Executing busybox-1.26.2-r11.post-upgrade
+(3/7) Upgrading libressl2.5-libcrypto (2.5.5-r0 -> 2.5.5-r2)
+(4/7) Upgrading libressl2.5-libssl (2.5.5-r0 -> 2.5.5-r2)
+(5/7) Installing libressl2.5-libtls (2.5.5-r2)
+(6/7) Installing ssl_client (1.26.2-r11)
+(7/7) Upgrading musl-utils (1.1.16-r14 -> 1.1.16-r15)
+Executing busybox-1.26.2-r11.trigger
+OK: 5 MiB in 15 packages
+Removing intermediate container bb090b7c9269
+ ---> 3cede09071f4
+Step 5/6 : EXPOSE  8080
+ ---> Running in 50be4ff03324
+Removing intermediate container 50be4ff03324
+ ---> 77a3aa644a33
+Step 6/6 : CMD node app.js
+ ---> Running in c7c05dbca00b
+Removing intermediate container c7c05dbca00b
+ ---> 1a1a476682cf
+Successfully built 1a1a476682cf
+Successfully tagged myimage:v1
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker images
+REPOSITORY    TAG            IMAGE ID       CREATED          SIZE
+myimage       v1             1a1a476682cf   39 seconds ago   77.4MB
+hello-world   latest         9c7a54a9a43c   6 months ago     13.3kB
+node          9.4.0-alpine   b5f94997f35f   5 years ago      68MB
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker run -dp 8080:8080 myimage:v1
+0aaec96e1d3a940f29527e370b056c7f9aa97a89bb5349e239de050c593b1d5b
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ curl localhost:8080
+Hello world from 0aaec96e1d3a! Your app is up and running!
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker stop $(docker ps -q)
+0aaec96e1d3a
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud target
+
+                   
+API endpoint:      https://cloud.ibm.com
+Region:            us-south
+User:              ServiceId-33cefd1c-2185-4b53-9d72-0fcb2742756a
+Account:           QuickLabs - IBM Skills Network (f672382e1b43496b83f7a82fd31a59e8)
+Resource group:    No resource group targeted, use 'ibmcloud target -g RESOURCE_GROUP'
+CF API endpoint:   
+Org:               
+Space:             
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr namespaces
+Listing namespaces for account 'QuickLabs - IBM Skills Network' in registry 'us.icr.io'...
+
+Namespace
+sn-labs-abrhamadamu0
+sn-labsassets
+
+OK
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr region-set us-south
+The region is set to 'us-south', the registry is 'us.icr.io'.
+
+OK
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr login
+Logging 'docker' in to 'us.icr.io'...
+Logged in to 'us.icr.io'.
+
+OK
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr login
+Logging 'docker' in to 'us.icr.io'...
+Logged in to 'us.icr.io'.
+
+OK
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ export MY_NAMESPACE=sn-labs-$USERNAME
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker tag myimage:v1 us.icr.io/$MY_NAMESPACE/hello-world:1
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ docker push us.icr.io/$MY_NAMESPACE/hello-world:1
+The push refers to repository [us.icr.io/sn-labs-abrhamadamu0/hello-world]
+0af507dcd2e9: Pushed 
+cbbcd0e15aa9: Pushed 
+1568236c0bd0: Pushed 
+0804854a4553: Pushed 
+6bd4a62f5178: Pushed 
+9dfa40a0da3b: Pushed 
+1: digest: sha256:9fd41ffbad07678794176ff61d20d3e79c00b2d74064635dade94c9a2ad83a17 size: 1576
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr images
+Listing images...
+
+Repository                                                               Tag                                                                           Digest         Namespace              Created         Size     Security status
+us.icr.io/sn-labs-abrhamadamu0/hello-world                               1                                                                             9fd41ffbad07   sn-labs-abrhamadamu0   6 minutes ago   28 MB    -
+us.icr.io/sn-labsassets/categories-watson-nlp-runtime                    latest                                                                        6b01b1e5527b   sn-labsassets          11 months ago   3.1 GB   -
+us.icr.io/sn-labsassets/classification-watson-nlp-runtime                latest                                                                        dbd407898549   sn-labsassets          11 months ago   4.0 GB   -
+us.icr.io/sn-labsassets/concepts-watson-nlp-runtime                      latest                                                                        1e4741f10569   sn-labsassets          11 months ago   3.2 GB   -
+us.icr.io/sn-labsassets/custom-watson-nlp-runtime                        latest                                                                        f6513e19a33d   sn-labsassets          11 months ago   6.5 GB   -
+us.icr.io/sn-labsassets/detag-watson-nlp-runtime                         latest                                                                        38916c2119fc   sn-labsassets          11 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/emotion-watson-nlp-runtime                       latest                                                                        1c9de1d27318   sn-labsassets          11 months ago   4.0 GB   -
+us.icr.io/sn-labsassets/entity-mentions-bert-watson-nlp-runtime          latest                                                                        57d92957214f   sn-labsassets          11 months ago   3.8 GB   -
+us.icr.io/sn-labsassets/entity-mentions-bilstm-watson-nlp-runtime        latest                                                                        76dbd3bdb12b   sn-labsassets          10 months ago   2.9 GB   -
+us.icr.io/sn-labsassets/entity-mentions-rbr-multi-watson-nlp-runtime     latest                                                                        577399d7b4e7   sn-labsassets          10 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/entity-mentions-rbr-watson-nlp-runtime           latest                                                                        506cc92ecd3f   sn-labsassets          10 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/entity-mentions-sire-watson-nlp-runtime          latest                                                                        cd4e48efd3f6   sn-labsassets          10 months ago   2.8 GB   -
+us.icr.io/sn-labsassets/entity-mentions-transformer-watson-nlp-runtime   latest                                                                        0584c56563ce   sn-labsassets          10 months ago   3.8 GB   -
+us.icr.io/sn-labsassets/instructions-splitter                            latest                                                                        2af122cfe4ee   sn-labsassets          2 years ago     21 MB    -
+us.icr.io/sn-labsassets/istio-examples-bookinfo-details-v1               1.17.0                                                                        85819dbebb6d   sn-labsassets          1 year ago      62 MB    -
+us.icr.io/sn-labsassets/istio-examples-bookinfo-productpage-v1           1.17.0                                                                        4c58e1fbe731   sn-labsassets          1 year ago      68 MB    -
+us.icr.io/sn-labsassets/istio-examples-bookinfo-ratings-v1               1.17.0                                                                        f529526d2807   sn-labsassets          1 year ago      57 MB    -
+us.icr.io/sn-labsassets/istio-examples-bookinfo-reviews-v3               1.17.0                                                                        0b37c5a396f7   sn-labsassets          1 year ago      415 MB   -
+us.icr.io/sn-labsassets/keywords-watson-nlp-runtime                      latest                                                                        e2b9dc471ae0   sn-labsassets          11 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/lang-detect-watson-nlp-runtime                   latest                                                                        4d3b44e72af0   sn-labsassets          11 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/llmchatbot-demo                                  latest                                                                        b0c45851acbe   sn-labsassets          4 months ago    5.1 GB   -
+us.icr.io/sn-labsassets/nginx                                            1.25.1                                                                        73e957703f12   sn-labsassets          3 months ago    71 MB    -
+us.icr.io/sn-labsassets/nginx                                            latest                                                                        73e957703f12   sn-labsassets          3 months ago    71 MB    -
+us.icr.io/sn-labsassets/nginx                                            sha256-85eabf2757cb5b5b84248d7feb019079501dfd8691fc79b8b1d0ff1591a6270b.sig   9a38ca67e16d   sn-labsassets          -               308 B    -
+us.icr.io/sn-labsassets/nginx                                            signed                                                                        85eabf2757cb   sn-labsassets          2 months ago    67 MB    -
+us.icr.io/sn-labsassets/nginx                                            unsigned                                                                      73e957703f12   sn-labsassets          3 months ago    71 MB    -
+us.icr.io/sn-labsassets/noun-phrases-watson-nlp-runtime                  latest                                                                        c696f6af9797   sn-labsassets          11 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/openshift-console-auth-proxy                     0.0.1                                                                         f3cd15bd3584   sn-labsassets          3 years ago     355 MB   -
+us.icr.io/sn-labsassets/pgadmin-theia                                    latest                                                                        0adf67ad81a3   sn-labsassets          2 years ago     101 MB   -
+us.icr.io/sn-labsassets/phpmyadmin                                       latest                                                                        b66c30786353   sn-labsassets          2 years ago     163 MB   -
+us.icr.io/sn-labsassets/relations-sire-watson-nlp-runtime                latest                                                                        65c2e74995d5   sn-labsassets          11 months ago   2.8 GB   -
+us.icr.io/sn-labsassets/relations-transformer-watson-nlp-runtime         latest                                                                        18ffd6c35726   sn-labsassets          10 months ago   3.6 GB   -
+us.icr.io/sn-labsassets/relations-watson-nlp-runtime                     latest                                                                        3547dcc15c43   sn-labsassets          11 months ago   3.6 GB   -
+us.icr.io/sn-labsassets/sentiment-bert-watson-nlp-runtime                latest                                                                        b7f6814ca014   sn-labsassets          11 months ago   3.7 GB   -
+us.icr.io/sn-labsassets/sentiment-cnn-watson-nlp-runtime                 latest                                                                        d89e9fbfccf1   sn-labsassets          10 months ago   2.8 GB   -
+us.icr.io/sn-labsassets/sentiment-watson-nlp-runtime                     latest                                                                        a0b76bd2dad7   sn-labsassets          11 months ago   4.2 GB   -
+us.icr.io/sn-labsassets/speech-standalone                                latest                                                                        635f94bc2c1c   sn-labsassets          11 months ago   3.7 GB   -
+us.icr.io/sn-labsassets/syntax-watson-nlp-runtime                        latest                                                                        332c147eb437   sn-labsassets          11 months ago   2.7 GB   -
+us.icr.io/sn-labsassets/tts-standalone                                   latest                                                                        56ce85280714   sn-labsassets          1 year ago      3.7 GB   -
+us.icr.io/sn-labsassets/tts-standalone-full                              latest                                                                        0285cd4b20bd   sn-labsassets          10 months ago   5.4 GB   -
+us.icr.io/sn-labsassets/watson-nlp-runtime                               1.0.18                                                                        0cbcbd5bde0e   sn-labsassets          1 year ago      2.7 GB   -
+us.icr.io/sn-labsassets/watson-nlp_syntax_izumo_lang_en_stock            1.0.7                                                                         362ba4b6ef00   sn-labsassets          1 year ago      14 MB    -
+us.icr.io/sn-labsassets/watson-nlp_syntax_izumo_lang_fr_stock            1.0.7                                                                         2d47c44882c7   sn-labsassets          1 year ago      14 MB    -
+
+OK
+theia@theiadocker-abrhamadamu0:/home/project/CC201/labs/1_ContainersAndDocker$ ibmcloud cr images --restrict $MY_NAMESPACE
+Listing images...
+
+Repository                                   Tag   Digest         Namespace              Created         Size    Security status
+us.icr.io/sn-labs-abrhamadamu0/hello-world   1     9fd41ffbad07   sn-labs-abrhamadamu0   6 minutes ago   28 MB
